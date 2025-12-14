@@ -1,2 +1,2 @@
 # SpotifyDataRead
-ths is spotify data read project
+this is spotify data read project
