@@ -2,6 +2,7 @@ import base64
 import requests
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv('.env')
 CLIENT_ID = os.getenv('CLIENT_ID')
@@ -17,7 +18,7 @@ def access_token():
             headers={'Authorization': f'Basic {encoded_credentials}'},
             data={'grant_type': 'client_credentials'})
     
-        print("token generated succesfully....")
+        # print("token generated succesfully....")
         # print(response)
         # print(response.json())
         # print(response.json()['access_token'])
@@ -40,14 +41,22 @@ def get_new_release():
             # print(response.json())
             data = response.json()
             albums = data['albums']['items']
-            for i in albums:
-                a = {
-                    'album_name':i['name'],
-                    'release_date':i['release_date']
+            for album in albums:
+                info = {
+                    'album_name': album['name'],
+                    'artist_name' : album['artists'][0]['name'],
+                    'release_date' : album['release_date'],
+                    'album_type' : album['album_type'],
+                    'total_tracks' : album['total_tracks'],
+                    'spotify_url' : album['external_urls']['spotify'],
+                    'album_image' : album['images'][0]['url'] if album['images'] else None 
                 }
-                print(a)
+                print(json.dumps(info,indent=2))
+                print("*" * 30)
                 
     except Exception as e:
         print("error in latest release data fetching...",e)
+
+        
 
 get_new_release()
