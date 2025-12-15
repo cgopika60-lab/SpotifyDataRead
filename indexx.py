@@ -57,6 +57,6 @@ def get_new_release():
     except Exception as e:
         print("error in latest release data fetching...",e)
 
-        
+
 
 get_new_release()
